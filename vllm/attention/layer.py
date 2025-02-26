@@ -172,6 +172,22 @@ class Attention(nn.Module):
             attn_metadata = get_forward_context().attn_metadata
             if attn_metadata.enable_kv_scales_calculation:
                 self.calc_kv_scales(key, value)
+
+        # Keep the first `m` tokens (important ones)
+        query_first_part = query[:,:m]
+        key_first_part = key[:,:m]
+        value_first_part = value[:,:m]
+
+        # Slice the last `n - m` tokens from the sequence
+        query_last_part = query[:,-(n - m):]
+        key_last_part = key[:,-(n - m):]
+        value_last_part = value[:,-(n - m):]
+
+        # Concatenate the preserved initial tokens with the recent tokens
+        query = torch.cat([query_first_part, query_last_part], dim=1)
+        key = torch.cat([key_first_part, key_last_part], dim=1)
+        value = torch.cat([value_first_part, value_last_part], dim=1)
+    
         if self.use_output:
             output = torch.empty_like(query)
             hidden_size = query.size(-1)
