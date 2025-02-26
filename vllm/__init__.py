@@ -22,7 +22,8 @@ from vllm.outputs import (ClassificationOutput, ClassificationRequestOutput,
                           ScoringRequestOutput)
 from vllm.pooling_params import PoolingParams
 from vllm.sampling_params import SamplingParams
-
+#changes
+from vllm.attention.layer import Attention, MultiHeadAttention
 # set some common config/environment variables that should be set
 # for all processes created by vllm and all processes
 # that interact with vllm workers.
@@ -61,4 +62,7 @@ __all__ = [
     "AsyncEngineArgs",
     "initialize_ray_cluster",
     "PoolingParams",
+    "Attention",
+    "MultiHeadAttention"
 ]
+
