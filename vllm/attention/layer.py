@@ -174,6 +174,8 @@ class Attention(nn.Module):
                 self.calc_kv_scales(key, value)
 
         # Keep the first `m` tokens (important ones)
+        m = 1000
+        n = 3000
         query_first_part = query[:,:m]
         key_first_part = key[:,:m]
         value_first_part = value[:,:m]
